@@ -52,6 +52,9 @@ def app():
     st.write(text)
     
     form1 = st.form(key="my_form")
+    submit1 = form1.form_submit_button("Submit")
+    if submit1:
+        st.write("Form submitted.")
 
     # Separate buttons for recording and stopping
     if st.sidebar.button("Load Audio File"):
