@@ -39,15 +39,17 @@ def app():
         """
         st.write(text)
 
-    st.write("This app allows you to record audio and transcribe it to text using the OpenAI Whisper model.")
-    st.write("Click the 'Start Recording' button to begin recording audio. Once you're done, click the 'Stop Recording' button to transcribe the audio.")
-    st.write("The transcribed text will be displayed below.")
-    st.write("Note: The model is trained to transcribe Hiligaynon and other Visayan and Languages.")
-    st.write("Please speak clearly and avoid background noise for best results.")
-    st.write("The model can transcribe up to 5 minutes of audio.")
-    st.write("Please note that the model may not be perfect and may make mistakes in transcription.")
-    st.write("If you encounter any issues, please try again or contact the developer.")
-    st.write("The model can only translate Hiligaynon to English at this time.")
+    text = """This app allows you to record audio and transcribe it to text using the 
+    OpenAI Whisper model. Click the 'Start Recording' button to begin recording 
+    audio. Once you're done, click the 'Stop Recording' button to transcribe the audio.
+    The transcribed text will be displayed below.
+    \nNote: The model is trained to transcribe Hiligaynon and other Visayan Languages.
+    Please speak clearly and avoid background noise for best results.  The model can 
+    transcribe up to 5 minutes of audio. Please note that the model may not be 
+    perfect and may make mistakes in transcription. If you encounter any issues, 
+    please try again or contact the developer. The model can only translate Hiligaynon to 
+    English at this time."""
+    st.write(text)
 
     # Separate buttons for recording and stopping
     if st.sidebar.button("Load Audio File"):
