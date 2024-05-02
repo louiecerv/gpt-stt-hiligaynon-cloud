@@ -58,23 +58,18 @@ def app():
         uploaded_file = st.sidebar.file_uploader("Choose an audio file to upload:", type=["mp3", "wav"])
         if uploaded_file is not None:
             # Display a success message
-            st.success("File uploaded successfully!")
+            form1.success("File uploaded successfully!")
 
             # Get details about the uploaded file
             file_details = {"filename": uploaded_file.name, "filetype": uploaded_file.type, "filesize": uploaded_file.size}
-            with form1:
-                st.write("File Details:")
-                st.json(file_details)
-                # Read the uploaded file content (optional)
-                bytes_data = uploaded_file.read()
-                st.write("File Details:")
-                st.json(file_details)
+            form1.write("File Details:")
+            form1.json(file_details)
 
             # Read the uploaded file content (optional)
             # bytes_data = uploaded_file.read()
 
         else:
-            st.warning("Upload an audio file (MP3 or WAV format).")
+            form1.warning("Upload an audio file (MP3 or WAV format).")
 
 if __name__ == "__main__":
     app()
