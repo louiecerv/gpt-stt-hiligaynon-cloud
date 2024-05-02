@@ -50,29 +50,26 @@ def app():
     please try again or contact the developer. The model can only translate Hiligaynon to 
     English at this time."""
     st.write(text)
-    
-    form1 = st.form(key="my_form")
-    submit1 = form1.form_submit_button("Submit")
-    if submit1:
-        st.write("Form submitted.")
+
 
     # Separate buttons for recording and stopping
     if st.sidebar.button("Load Audio File"):
         uploaded_file = st.sidebar.file_uploader("Choose an audio file to upload:", type=["mp3", "wav"])
-        if uploaded_file is not None:
-            # Display a success message
-            form1.success("File uploaded successfully!")
 
-            # Get details about the uploaded file
-            file_details = {"filename": uploaded_file.name, "filetype": uploaded_file.type, "filesize": uploaded_file.size}
-            form1.write("File Details:")
-            form1.json(file_details)
+    if uploaded_file is not None:
+        # Display a success message
+        st.success("File uploaded successfully!")
 
-            # Read the uploaded file content (optional)
-            # bytes_data = uploaded_file.read()
+        # Get details about the uploaded file
+        file_details = {"filename": uploaded_file.name, "filetype": uploaded_file.type, "filesize": uploaded_file.size}
+        st.write("File Details:")
+        st.json(file_details)
 
-        else:
-            form1.warning("Upload an audio file (MP3 or WAV format).")
+        # Read the uploaded file content (optional)
+        # bytes_data = uploaded_file.read()
+
+    else:
+        st.warning("Upload an audio file (MP3 or WAV format).")
 
 if __name__ == "__main__":
     app()
