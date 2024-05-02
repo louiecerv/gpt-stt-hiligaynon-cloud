@@ -27,6 +27,9 @@ def transcribe_audio():
 
     return transcription.text
 
+if "uploaded_file" not in st.session_state:
+    st.session_state.uploaded_file = None
+
 def app():
     st.subheader("Fine-tuned Speech-to-Text Model for Hiligaynon (Ilonggo) Language")
 
@@ -55,6 +58,9 @@ def app():
     # Separate buttons for recording and stopping
     if st.sidebar.button("Load Audio File"):
         uploaded_file = st.sidebar.file_uploader("Choose an audio file to upload:", type=["mp3", "wav"])
+        st.session_state.uploaded_file = uploaded_file
+        
+    uploaded_file = st.session_state.uploaded_file
 
     if uploaded_file is not None:
         # Display a success message
@@ -70,6 +76,7 @@ def app():
 
     else:
         st.warning("Upload an audio file (MP3 or WAV format).")
+
 
 if __name__ == "__main__":
     app()
