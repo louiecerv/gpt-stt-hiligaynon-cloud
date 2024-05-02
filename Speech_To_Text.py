@@ -58,10 +58,17 @@ def app():
             # Display a success message
             st.success("File uploaded successfully!")
 
+            form1 = st.form(key="my_form")
+
             # Get details about the uploaded file
             file_details = {"filename": uploaded_file.name, "filetype": uploaded_file.type, "filesize": uploaded_file.size}
-            st.write("File Details:")
-            st.json(file_details)
+            with form1:
+                st.write("File Details:")
+                st.json(file_details)
+                # Read the uploaded file content (optional)
+                bytes_data = uploaded_file.read()
+                st.write("File Details:")
+                st.json(file_details)
 
             # Read the uploaded file content (optional)
             # bytes_data = uploaded_file.read()
