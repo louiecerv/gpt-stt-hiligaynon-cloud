@@ -1,7 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 import os
-import pyaudio
 import wave
 
 #client = OpenAI(api_key=os.getenv("API_KEY"))
@@ -28,27 +27,6 @@ def transcribe_audio():
 
     return transcription.text
 
-if "stream" not in st.session_state:
-    st.session_state.stream = None
-
-if "frames" not in st.session_state:
-    st.session_state.frames = []
-
-if "p" not in st.session_state:
-    st.session_state.p = None   
-
-if "channels" not in st.session_state:
-    st.session_state.channels = 2
-
-if "rate" not in st.session_state:
-    st.session_state.rate = 44100
-
-if "format" not in st.session_state:
-    st.session_state.format = pyaudio.paInt16
-
-if "chunk" not in st.session_state:
-    st.session_state.chunk = 1024
-
 def app():
     st.subheader("Fine-tuned Speech-to-Text Model for Hiligaynon (Ilonggo) Language")
 
@@ -72,79 +50,22 @@ def app():
     st.write("The model can only translate Hiligaynon to English at this time.")
 
     # Separate buttons for recording and stopping
-    if st.sidebar.button("Start Recording"):
-        global recording
-        recording = True
+    if st.sidebar.button("Load Audio File"):
+        uploaded_file = st.file_uploader("Choose an audio file to upload:", type=["audio/mpeg", "audio/wav"])
+        if uploaded_file is not None:
+            # Display a success message
+            st.success("File uploaded successfully!")
 
-        # Initialize PyAudio object
-        p = pyaudio.PyAudio()
-        st.session_state.p = p
+            # Get details about the uploaded file
+            file_details = {"filename": uploaded_file.name, "filetype": uploaded_file.type, "filesize": uploaded_file.size}
+            st.write("File Details:")
+            st.json(file_details)
 
-        # Define recording parameters
-        chunk = 1024  # Chunk size for recording
-        format = pyaudio.paInt16  # Audio format
-        channels = 2  # Number of channels (stereo)
-        rate = 44100  # Sampling rate
-        st.session_state.channels = channels    
-        st.session_state.rate = rate 
-        st.session_state.format = format
-        st.session_state.chunk = chunk
+            # Read the uploaded file content (optional)
+            # bytes_data = uploaded_file.read()
 
-
-        # Open audio stream
-        stream = p.open(format=format,
-                        channels=channels,
-                        rate=rate,
-                        input=True,
-                        frames_per_buffer=chunk)
-        st.session_state.stream = stream
-
-        frames = []
-
-        st.write("Recording started...")
-        recording = True
-        # Record audio for specified duration
-        while recording:
-            data = stream.read(chunk)
-            frames.append(data)
-            st.session_state.frames = frames
-
-
-    if st.sidebar.button("Stop Recording"):
-        stream = st.session_state.stream
-        frames = st.session_state.frames
-        p = st.session_state.p  
-        channels = st.session_state.channels
-        rate = st.session_state.rate
-        format = st.session_state.format
-        chunk = st.session_state.chunk
-
-        recording = False
-        st.write("Recording stopped.")
-
-        # Stop and close the stream
-        stream.stop_stream()
-        stream.close()
-
-        # Close PyAudio object
-        p.terminate()
-
-        # Combine recorded frames into a single byte array
-        audio_data = b''.join(frames)
-
-        # Save audio data as a WAV file (optional)
-        wf = wave.open("recording.wav", 'wb')
-        wf.setnchannels(channels)
-        wf.setsampwidth(p.get_sample_size(format))
-        wf.setframerate(rate)
-        wf.writeframes(audio_data)
-        wf.close()
-
-        if audio_data:
-            transcription = transcribe_audio()
-            st.write("Transcription:")
-            st.write(transcription if transcription else "No transcription available.")
-
+        else:
+            st.warning("Upload an audio file (MP3 or WAV format).")
 
 if __name__ == "__main__":
     app()
