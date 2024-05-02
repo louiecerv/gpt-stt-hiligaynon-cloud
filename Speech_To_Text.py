@@ -50,6 +50,8 @@ def app():
     please try again or contact the developer. The model can only translate Hiligaynon to 
     English at this time."""
     st.write(text)
+    
+    form1 = st.form(key="my_form")
 
     # Separate buttons for recording and stopping
     if st.sidebar.button("Load Audio File"):
@@ -57,8 +59,6 @@ def app():
         if uploaded_file is not None:
             # Display a success message
             st.success("File uploaded successfully!")
-
-            form1 = st.form(key="my_form")
 
             # Get details about the uploaded file
             file_details = {"filename": uploaded_file.name, "filetype": uploaded_file.type, "filesize": uploaded_file.size}
