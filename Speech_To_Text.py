@@ -53,7 +53,7 @@ def app():
 
     # Separate buttons for recording and stopping
     if st.sidebar.button("Load Audio File"):
-        uploaded_file = st.file_uploader("Choose an audio file to upload:", type=["audio/mpeg", "audio/wav"])
+        uploaded_file = st.sidebar.file_uploader("Choose an audio file to upload:", type=["audio/mpeg", "audio/wav"])
         if uploaded_file is not None:
             # Display a success message
             st.success("File uploaded successfully!")
